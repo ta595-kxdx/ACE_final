@@ -32,31 +32,37 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity clock_div is
-Port (
-    clk_125MHz : in std_logic := '0';
-    clk_25MHz : out std_logic := '0'
+    generic (
+        divide_by : integer := 256);
+    Port (
+        clk_in : in std_logic := '0';
+        rst_n : in std_logic;
+        clk_out : out std_logic := '0'
 
- );
+    );
 end clock_div;
 
 architecture Behavioral of clock_div is
-signal clk_counter : std_logic_vector (25 downto 0) := (others => '0'); 
+    signal clk_counter : integer := 0;
+    signal clk_reg : std_logic := '0';
 begin
 
-process (clk_125MHz)
-begin  
-    if rising_edge(clk_125MHz) then
-        if clk_counter = "00000000000000000000000100" then --25 in binary
-            clk_25MHz <= '1';
-            clk_counter <= (others => '0'); 
-         else 
-            clk_counter <= std_logic_vector(unsigned(clk_counter) + 1);
-            clk_25MHz <= '0';
-         end if;
-    end if;
- end process; 
-
+    process (clk_in, rst_n)
+    begin
+        if rst_n = '0' then
+            clk_counter <= 0;
+            clk_reg  <= '0';
+        
+    elsif rising_edge(clk_in) then 
+        if clk_counter = DIVIDE_BY-1 then
+        clk_counter <= 0;
+        clk_reg <= not clk_reg;
+        
+     else 
+        clk_counter <= clk_counter + 1 ;
+        end if;
+        
+        end if;
+    end process;
+clk_out <= clk_reg;
 end Behavioral;
-
-
---"11101110011010110010100000" then --62,500,000 in binary (25 down to 0)
