@@ -1,0 +1,10 @@
+[Place 30-58] IO placement is infeasible. Number of unplaced IO Ports (5) is greater than number of available sites (0).
+The following are banks with available pins: 
+ IO Group: 0 with : SioStd: LVCMOS18   VCCO = 1.8 Termination: 0  TermDir:  Out  RangeId: 1 Drv: 12  has only 0 sites available on device, but needs 5 sites.
+	Term: led[4]
+	Term:  led[5]
+	Term:  led[6]
+	Term:  cam_clk
+	Term:  and cam_gpio
+
+
